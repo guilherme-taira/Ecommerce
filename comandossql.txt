@@ -1,0 +1,8 @@
+// para ativar flag de status para enviar os dados para UelloPedidos
+UPDATE UelloPedidos SET FlagStatus = 'X' WHERE url_rastreio = ''
+
+// para pegar todos os valores da produtividade 
+SELECT COUNT(cod),nome,DATE_FORMAT(datas,'%Y/%m/%d') FROM `codigo`
+INNER JOIN colaborador on colaborador.id = codigo.colaborador
+WHERE datas LIKE '%2022-01%' GROUP BY DATE_FORMAT(datas,'%Y/%m/%d'), colaborador ORDER BY datas DESC
+

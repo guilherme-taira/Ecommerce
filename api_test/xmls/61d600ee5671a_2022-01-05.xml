@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cotacao>
+  <resultado>
+    <codigo>1111</codigo>
+    <transportadora>Uello</transportadora>
+    <servico>Rápido</servico>
+    <transporte>TERRESTRE</transporte>
+    <valor>21.5</valor>
+    <peso>0.100</peso>
+    <prazo_min></prazo_min>
+    <prazo_max>2 Dia(s) útil(eis)</prazo_max>
+    <imagem_frete>https://portaldocomputador.com.br/SistemaPedidos/teste/Uello/logo_uello.png</imagem_frete>
+    <aviso_envio></aviso_envio>
+    <entrega_domiciliar>1</entrega_domiciliar>
+  </resultado>
+</cotacao>
