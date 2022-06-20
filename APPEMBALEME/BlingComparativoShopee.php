@@ -88,66 +88,66 @@ class Shopee implements Bling {
     }
 }
 
-abstract class FactoryShopee {
+abstract class FactoryShopeeDivergencia {
     public abstract function CadastraBancoshopee($id_produto,$apikey, \PDO $pdo);
     public abstract function VerificaDivergencia();
 }
 
-class AnaliseDeDadosFactory extends FactoryShopee{
+//class AnaliseDeDadosFactory extends FactoryShopeeDivergencia {
 
-    public function CadastraBancoshopee($id_produto,$apikey,\PDO $pdo){
-        $ShopeeProduct = new Shopee($id_produto,$apikey);
-        $dadosProduto =  $ShopeeProduct->resource();
+    // public function CadastraBancoshopee($id_produto,$apikey,\PDO $pdo){
+    //     $ShopeeProduct = new Shopee($id_produto,$apikey);
+    //     $dadosProduto =  $ShopeeProduct->resource();
 
-        $json = json_decode($dadosProduto,false); 
+    //     $json = json_decode($dadosProduto,false); 
        
-        foreach ($json->retorno->produtos as $produto) {
-            print_r($produto->produto);
-            echo "PRECO " . $produto->produto->produtoLoja->preco->preco . "<br>";
-            $hoje = new DateTime();
-            if($produto->produto->produtoLoja->dataAlteracao == $hoje->format('Y-m-d')){
-                 // GRAVA NO BANCO SE TEVE ALTERACAO
-                 $preco = $produto->produto->produtoLoja->preco->preco;
-                 $referencia = $produto->produto->codigo;
-                 $divergencia = "S";
-                 try {
-                    $pdo->beginTransaction();
-                    $statement = $pdo->prepare("UPDATE TrayProdutos SET PrecoShopee = :precoshopee, Divergente = :divergencia WHERE referencia = :referencia");
-                    $statement->bindValue(':precoshopee',$preco, PDO::PARAM_STR);
-                    $statement->bindValue(':divergencia',$divergencia, PDO::PARAM_STR);
-                    $statement->bindValue(':referencia', $referencia, PDO::PARAM_STR);
-                    $statement->execute();
-                    $pdo->commit();
-                 } catch (\PDOException $e) {
-                     $pdo->rollBack();
-                     echo $e->getMessage();
-                     echo $e->getCode();
-                 }
-            }else{
-                // GRAVA NO BANCO SE TEVE ALTERACAO
-                $referencia = $produto->produto->codigo;
-                $divergencia = "N";
-                try {
-                   $pdo->beginTransaction();
-                   $statement = $pdo->prepare("UPDATE TrayProdutos SET Divergente = :divergencia WHERE referencia = :referencia");
-                   $statement->bindValue(':divergencia',$divergencia, PDO::PARAM_STR);
-                   $statement->bindValue(':referencia', $referencia, PDO::PARAM_STR);
-                   $statement->execute();
-                   $pdo->commit();
-                } catch (\PDOException $e) {
-                    $pdo->rollBack();
-                    echo $e->getMessage();
-                    echo $e->getCode();
-                }
-            }
-        }
+    //     foreach ($json->retorno->produtos as $produto) {
+    //         // print_r($produto->produto);
+    //         // echo "PRECO " . $produto->produto->produtoLoja->preco->preco . "<br>";
+    //         $hoje = new DateTime();
+    //         if($produto->produto->produtoLoja->dataAlteracao == $hoje->format('Y-m-d')){
+    //              // GRAVA NO BANCO SE TEVE ALTERACAO
+    //              $preco = $produto->produto->produtoLoja->preco->preco;
+    //              $referencia = $produto->produto->codigo;
+    //              $divergencia = "S";
+    //              try {
+    //                 $pdo->beginTransaction();
+    //                 $statement = $pdo->prepare("UPDATE TrayProdutos SET PrecoShopee = :precoshopee, Divergente = :divergencia WHERE referencia = :referencia");
+    //                 $statement->bindValue(':precoshopee',$preco, PDO::PARAM_STR);
+    //                 $statement->bindValue(':divergencia',$divergencia, PDO::PARAM_STR);
+    //                 $statement->bindValue(':referencia', $referencia, PDO::PARAM_STR);
+    //                 $statement->execute();
+    //                 $pdo->commit();
+    //              } catch (\PDOException $e) {
+    //                  $pdo->rollBack();
+    //                  echo $e->getMessage();
+    //                  echo $e->getCode();
+    //              }
+    //         }else{
+    //             // GRAVA NO BANCO SE TEVE ALTERACAO
+    //             $referencia = $produto->produto->codigo;
+    //             $divergencia = "N";
+    //             try {
+    //                $pdo->beginTransaction();
+    //                $statement = $pdo->prepare("UPDATE TrayProdutos SET Divergente = :divergencia WHERE referencia = :referencia");
+    //                $statement->bindValue(':divergencia',$divergencia, PDO::PARAM_STR);
+    //                $statement->bindValue(':referencia', $referencia, PDO::PARAM_STR);
+    //                $statement->execute();
+    //                $pdo->commit();
+    //             } catch (\PDOException $e) {
+    //                 $pdo->rollBack();
+    //                 echo $e->getMessage();
+    //                 echo $e->getCode();
+    //             }
+    //         }
+    //     }
        
-    }
+    // }
 
-    public function VerificaDivergencia(){
+    // public function VerificaDivergencia(){
 
-    }
-}
+    // }
+//}
 
 class TelaMostraDiverngencia {
     
@@ -167,10 +167,10 @@ class TelaMostraDiverngencia {
         $produtos = $produtos->resource($this->getPagina(),$this->getApikey());
         
     
-        foreach ($produtos->retorno->produtos as $produto) {
-            $FactoryProduto = new AnaliseDeDadosFactory();
-            $FactoryProduto->CadastraBancoshopee($produto->produto->codigo,'a0e92e1b13cad53953fa6b425bc6cb36bcf51d327ec8ca3c9a0c20d271edb3585cc96277',$this->pdo2);
-        }
+        // foreach ($produtos->retorno->produtos as $produto) {
+        //     $FactoryProduto = new AnaliseDeDadosFactory();
+        //     $FactoryProduto->CadastraBancoshopee($produto->produto->codigo,'a0e92e1b13cad53953fa6b425bc6cb36bcf51d327ec8ca3c9a0c20d271edb3585cc96277',$this->pdo2);
+        // }
    
     }
  

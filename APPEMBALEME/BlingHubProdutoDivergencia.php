@@ -119,8 +119,7 @@ set_time_limit(120);
             echo "<div id='progressbar1' class='progress-bar progress-bar-striped bg-success' role='progressbar'></div>";
             include_once 'BlingComparativoShopee.php';
             include_once '../conexao_pdo.php';
-            echo "<pre>";
-
+    
             $TelaMostraDiverngencia = new TelaMostraDiverngencia('a0e92e1b13cad53953fa6b425bc6cb36bcf51d327ec8ca3c9a0c20d271edb3585cc96277',$pagina,$pdo2);
             $TelaMostraDiverngencia->atualizaProdutos();
                   

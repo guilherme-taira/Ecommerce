@@ -118,7 +118,7 @@ error_reporting(E_ALL);
       // data final com -7 dias apartir da data atual
       $dataFinal = DateTime::createFromFormat('Y-m-d', $_SESSION['data_inicial']);
       $dataFinal->format('Y-m-d');
-      $dataFinal->modify('-5 day');
+      $dataFinal->modify('-6 day');
 
       // data final com +1 dias apartir da data atual
       $datainicial = DateTime::createFromFormat('Y-m-d', $_SESSION['data_inicial']);

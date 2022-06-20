@@ -89,12 +89,12 @@ class Shopee implements Bling {
     }
 }
 
-abstract class FactoryShopee {
+abstract class FactoryShopeeDivergencia {
     public abstract function CadastraBancoshopee($id_produto,$apikey, \PDO $pdo);
     public abstract function VerificaDivergencia();
 }
 
-class AnaliseDeDadosFactory extends FactoryShopee{
+class AnaliseDeDadosFactory extends FactoryShopeeDivergencia{
 
     public function CadastraBancoshopee($id_produto,$apikey,\PDO $pdo){
         $ShopeeProduct = new Shopee($id_produto,$apikey);
