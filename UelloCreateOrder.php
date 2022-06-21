@@ -98,7 +98,11 @@ class UelloOrder
         // Endpoint para requisicao
         $endpoint = URLBASE_GERA_ORDER_PLATAFORMA . $resource;
 
-
+        $array = [];
+        foreach ($this->dataVolume($this->getDataVolume(),$this->getQuantityVolume()) as $value) {
+                array_push($array,$value);
+        }
+ 
         $data = array(
             "operation" => 1721,
             "number" => $this->getNumOp(),
@@ -126,13 +130,14 @@ class UelloOrder
                 "total" => $this->getTotalNf(),
                 "weight" => $this->getPeso(),
             ),
-            "volumes" => $this->dataVolume($this->getDataVolume(),$this->getQuantityVolume()),
-
+            "volumes" => json_decode($this->getDataVolume(),true)//  $this->dataVolume($this->getDataVolume(),$this->getQuantityVolume()),
         );
 
         $jsonOrder = json_encode($data, JSON_PRETTY_PRINT);
-        //print_r($jsonOrder);
-
+        // echo "<pre>";
+        // print_r($jsonOrder);
+        // echo "</pre>";
+    
         try {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $endpoint);
@@ -162,16 +167,8 @@ class UelloOrder
 
     public function dataVolume($dataVolume, $quantidade)
     {
-        $dataJson = [];
         if ($quantidade > 1) {
-            foreach (json_decode($dataVolume,false) as $volumeData) {
-                $array = [
-                    'identifier' => $volumeData->identifier,
-                    'weight' => floatval($volumeData->weight / 1000),
-                    'volume' => $volumeData->volume,
-                ];
-                array_push($dataJson, $array);
-            }
+            $dataJson =  json_decode($dataVolume,true);
             return $dataJson;
         }else{
             $data = json_decode($dataVolume,false);

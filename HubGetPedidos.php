@@ -164,7 +164,6 @@ error_reporting(E_ALL);
       </h3>";
 
       echo "<table border='1'>";
-      echo "<pre>";
       // print_r($requisicao);
       foreach ($requisicao->Orders as $Order) {
 
@@ -220,24 +219,81 @@ error_reporting(E_ALL);
             echo "<td class='alert alert-success'>" . $dados->Order->date . "</td>";
             echo "<td class='alert alert-success'>Cadastrado Com Sucesso!</td></tr>";
 
-             // NOVA ORDEM
-             $OrderGravaBanco = new CadastrarNewOrder($dados->Order->status,$dados->Order->id,$dados->Order->date,$dados->Order->customer_id,$dados->Order->partial_total,$dados->Order->taxes,
-             $dados->Order->discount,$dados->Order->point_sale,$dados->Order->shipment,$dados->Order->shipment_value,
-             $dados->Order->shipment_date,$dados->Order->store_note,$dados->Order->discount_coupon,$dados->Order->payment_method_rate,$dados->Order->value_1,$Order->Order->payment_form,$dados->Order->sending_code,
-             $dados->Order->session_id,$dados->Order->total,$dados->Order->payment_date,$dados->Order->access_code,$Order->Order->progressive_discount,$Order->Order->shipping_progressive_discount,
-             $dados->Order->shipment_integrator,$dados->Order->modified,$dados->Order->printed,$dados->Order->interest,$dados->Order->id_quotation,$dados->Order->estimated_delivery_date,$dados->Order->external_code,
-             $dados->Order->has_payment,$dados->Order->has_shipment,$dados->Order->has_invoice,$dados->Order->total_comission_user,$dados->Order->total_comission,0,0,$dados->Order->OrderStatus->id,$dados->Order->OrderStatus->default,
-             $dados->Order->OrderStatus->type,$dados->Order->OrderStatus->show_backoffice,$dados->Order->OrderStatus->show_backoffice,$dados->Order->OrderStatus->description,$dados->Order->OrderStatus->show_backoffice,
-             $dados->Order->OrderStatus->show_status_central,$dados->Order->OrderStatus->background,$cliente->Customer->name,$cliente->Customer->email,$cliente->Customer->phone,$cliente->Customer->address,
-             $cliente->Customer->number,$cliente->Customer->neighborhood,$cliente->Customer->zip_code,$cliente->Customer->neighborhood,$cliente->Customer->city,$cliente->Customer->state,
-             $chaveNf,$NumeroNf,$dataNf,$serieNf,$TotalNf,$peso,$cliente->Customer->cpf,$pdo2,$cliente->Customer->complement,$QuantityVolume,$dataVolume);
-             // GRAVA NO BANCO
-             $OrderGravaBanco->CadastrarOrdem();
+            // NOVA ORDEM
+            $OrderGravaBanco = new CadastrarNewOrder(
+              $dados->Order->status,
+              $dados->Order->id,
+              $dados->Order->date,
+              $dados->Order->customer_id,
+              $dados->Order->partial_total,
+              $dados->Order->taxes,
+              $dados->Order->discount,
+              $dados->Order->point_sale,
+              $dados->Order->shipment,
+              $dados->Order->shipment_value,
+              $dados->Order->shipment_date,
+              $dados->Order->store_note,
+              $dados->Order->discount_coupon,
+              $dados->Order->payment_method_rate,
+              $dados->Order->value_1,
+              $Order->Order->payment_form,
+              $dados->Order->sending_code,
+              $dados->Order->session_id,
+              $dados->Order->total,
+              $dados->Order->payment_date,
+              $dados->Order->access_code,
+              $Order->Order->progressive_discount,
+              $Order->Order->shipping_progressive_discount,
+              $dados->Order->shipment_integrator,
+              $dados->Order->modified,
+              $dados->Order->printed,
+              $dados->Order->interest,
+              $dados->Order->id_quotation,
+              $dados->Order->estimated_delivery_date,
+              $dados->Order->external_code,
+              $dados->Order->has_payment,
+              $dados->Order->has_shipment,
+              $dados->Order->has_invoice,
+              $dados->Order->total_comission_user,
+              $dados->Order->total_comission,
+              0,
+              0,
+              $dados->Order->OrderStatus->id,
+              $dados->Order->OrderStatus->default,
+              $dados->Order->OrderStatus->type,
+              $dados->Order->OrderStatus->show_backoffice,
+              $dados->Order->OrderStatus->show_backoffice,
+              $dados->Order->OrderStatus->description,
+              $dados->Order->OrderStatus->show_backoffice,
+              $dados->Order->OrderStatus->show_status_central,
+              $dados->Order->OrderStatus->background,
+              $cliente->Customer->name,
+              $cliente->Customer->email,
+              $cliente->Customer->phone,
+              $cliente->Customer->address,
+              $cliente->Customer->number,
+              $cliente->Customer->neighborhood,
+              $cliente->Customer->zip_code,
+              $cliente->Customer->neighborhood,
+              $cliente->Customer->city,
+              $cliente->Customer->state,
+              $chaveNf,
+              $NumeroNf,
+              $dataNf,
+              $serieNf,
+              $TotalNf,
+              $peso,
+              $cliente->Customer->cpf,
+              $pdo2,
+              $cliente->Customer->complement,
+              $QuantityVolume,
+              $dataVolume
+            );
+            // GRAVA NO BANCO
+            $OrderGravaBanco->CadastrarOrdem();
           }
         }
       }
-
-
 
       echo "</table>";
 
@@ -249,19 +305,21 @@ error_reporting(E_ALL);
           for ($i = 0; $i < CalculaVolumes($peso); $i++) {
             $dados[$i] = [
               'identifier' => GeradorDeEtiqueta($n_pedido, $i),
-              'weight' => calculaLimitador($pesoreal),
+              'weight' => calculaLimitador($pesoreal) / 1000,
               'volume' => 0.01
             ];
             $pesoreal -= 30000;
           }
         } else {
           $dados = [
+            [
             'identifier' => GeradorDeEtiqueta($n_pedido, 1),
             'weight' => calculaLimitador($peso) / 1000,
             'volume' => 0.01
-          ];
+           ]
+        ];
         }
-         return json_encode($dados);
+        return json_encode($dados);
       }
 
       function GeradorDeEtiqueta(string $nOrder, $QuantityVolume)
